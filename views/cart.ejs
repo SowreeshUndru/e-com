@@ -1,0 +1,123 @@
+<!-- <%- include('./partials/header') %>
+    <div class="w-full h-screen flex items-start px-20 py-20 gap-10">
+        <div class="w-[30%] rounded-md overflow-hidden">
+            <div class="w-full h-80 bg-yellow-500"></div>
+            <div class="w-full flex justify-between px-5 py-4">
+                <h3 class="text-2xl">Clinge Bag</h3>
+                <div class="flex items-center gap-2">
+                    <i class="w-7 h-7 bg-white flex rounded-full items-center justify-center ri-add-line"></i>
+                    <div class="px-2 py-1 rounded-md bg-white text-black">01</div>
+                    <i class="w-7 h-7 bg-white flex rounded-full items-center justify-center ri-subtract-line"></i>
+                </div>
+            </div>
+            <div class="flex items-center justify-between px-5 py-3">
+                <h4 class="text-lg">Net Total</h4>
+                <h2 class="text-lg">₹ 1200</h2>
+            </div>
+        </div>
+        <div class="w-[70%]">
+            <h3 class="text-xl">Price Breakdown</h3>
+            <div class="px-10 mt-5">
+                <div class="flex mt-2">
+                    <h4 class="w-1/3">Total MRP</h4>
+                    <h4>₹ 1920</h4>
+                </div>
+                <div class="flex mt-2">
+                    <h4 class="w-1/3">Discount on MRP</h4>
+                    <h4>₹ 0</h4>
+                </div>
+                <div class="flex mt-2">
+                    <h4 class="w-1/3">Platform Fee</h4>
+                    <h4>₹ 20</h4>
+                </div>
+                <div class="flex mt-2">
+                    <h4 class="w-1/3">Shipping Fee</h4>
+                    <h4>FREE</h4>
+                </div>
+            </div>
+            <div class="w-full h-[1px] bg-black mt-10"></div>
+            <div class="flex mt-5">
+                <h3 class="w-1/3 text-xl">Total Amount</h3>
+                <h3 class="font-semibold text-xl text-green-600">₹ 1940</h3>
+            </div>
+            <form action=""></form>
+        </div>
+    </div>
+    <%- include('./partials/footer') %> -->
+
+
+
+    <%- include('./partials/header') %>
+<div class="container mx-auto my-8">
+    <h1 class="text-2xl font-semibold mb-6">Your Items</h1>
+
+    <!-- Check if the cart is empty -->
+    <% if (cart.length === 0) { %>
+        <p class="text-gray-500">No items in your cart!</p>
+    <% } else { %>
+        <!-- Cart Items List -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <% cart.forEach(product => { %>
+                <div class="flex border p-4 rounded-lg shadow">
+                    <!-- Product Image -->
+                    <div class="w-1/4">
+                        <% if (product.image) { %>
+                            <img src="data:image/png;base64,<%= product.image.toString('base64') %>" alt="<%= product.name %>" class="rounded-lg">
+                        <% } else { %>
+                            <div class="w-full h-full bg-gray-200 rounded-lg flex items-center justify-center">
+                                <span class="text-gray-500">No Image</span>
+                            </div>
+                        <% } %>
+                    </div>
+
+                    <!-- Product Details -->
+                    <div class="w-3/4 pl-4">
+                        <h2 class="text-lg font-semibold"><%= product.name %></h2>
+                        <p class="text-sm text-gray-600">In stock</p>
+                        <p class="text-lg font-bold text-red-600">₹ <%= product.price %></p>
+
+                        <!-- Quantity Controls -->
+                        <div class="flex items-center mt-4 space-x-3">
+                            <button class="px-2 py-1 bg-gray-200 rounded-md">-</button>
+                            <span class="font-semibold">1</span>
+                            <button class="px-2 py-1 bg-gray-200 rounded-md">+</button>
+                        </div>
+
+                        <!-- Remove Button -->
+                        <a href="cart">Remove</a>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+
+    <!-- Total Price Section -->
+    <div class="mt-8 p-4 border rounded-lg shadow">
+        <h2 class="text-xl font-semibold">Price Details</h2>
+        <div class="mt-4">
+            <div class="flex justify-between">
+                <span>Total MRP</span>
+                <span>₹ <%= cart.reduce((sum, product) => sum + product.price, 0) %></span>
+            </div>
+            <div class="flex justify-between">
+                <span>Discount</span>
+                <span>₹ 0</span>
+            </div>
+            <div class="flex justify-between">
+                <span>Shipping Fee</span>
+                <span>FREE</span>
+            </div>
+        </div>
+        <div class="border-t mt-4 pt-4 flex justify-between">
+            <span class="text-lg font-bold">Total Amount</span>
+            <span class="text-lg font-bold text-green-600">₹ <%= cart.reduce((sum, product) => sum + product.price, 0) %></span>
+        </div>
+    </div>
+
+    <!-- Proceed Button -->
+    <div class="mt-6">
+        <button class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Proceed to Buy</button>
+    </div>
+</div>
+<%- include('./partials/footer') %>
+
