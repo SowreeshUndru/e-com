@@ -7,7 +7,7 @@ const path = require("path");
 const expresssession=require("express-session");
 const flash=require("connect-flash");
 const { setEngine } = require("crypto");
-const db=require(path.join(__dirname,"config/mongoose-connection.js"))
+const   db=require(path.join(__dirname,"config/mongoose-connection.js"))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

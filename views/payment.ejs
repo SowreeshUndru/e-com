@@ -1,0 +1,82 @@
+<%- include('./partials/header') %>
+
+<div class="container mx-auto px-6 py-16">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8">💳 Payment Details</h1>
+
+    <div class="bg-white shadow-lg rounded-2xl p-8 max-w-xl mx-auto">
+        <form action="/users/confirm-payment" method="POST" class="space-y-6">
+            <!-- Payment Method Selection -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Select Payment Method</label>
+                <select id="paymentMethod" name="paymentMethod" required class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                    <option value="" disabled selected>Choose option</option>
+                    <option value="card">Credit/Debit Card</option>
+                    <option value="upi">UPI</option>
+                    <option value="cod">Cash on Delivery</option>
+                </select>
+            </div>
+
+            <!-- Card Payment Fields -->
+            <div id="cardFields" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Cardholder Name</label>
+                    <input type="text" name="name" class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                    <input type="text" name="card" maxlength="16" class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Expiry</label>
+                        <input type="text" name="expiry" placeholder="MM/YY" class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">CVV</label>
+                        <input type="password" name="cvv" maxlength="3" class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- UPI Payment Fields -->
+            <div id="upiFields" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">UPI ID</label>
+                    <input type="text" name="upiId" placeholder="yourname@bank" class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                </div>
+            </div>
+
+            <!-- COD Note -->
+            <div id="codNote" class="hidden text-sm text-gray-500">
+                <p>You can pay in cash upon delivery. No additional information is needed.</p>
+            </div>
+
+            <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                Pay Now
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const paymentSelect = document.getElementById('paymentMethod');
+    const cardFields = document.getElementById('cardFields');
+    const upiFields = document.getElementById('upiFields');
+    const codNote = document.getElementById('codNote');
+
+    paymentSelect.addEventListener('change', (e) => {
+        cardFields.classList.add('hidden');
+        upiFields.classList.add('hidden');
+        codNote.classList.add('hidden');
+
+        if (e.target.value === 'card') {
+            cardFields.classList.remove('hidden');
+        } else if (e.target.value === 'upi') {
+            upiFields.classList.remove('hidden');
+        } else if (e.target.value === 'cod') {
+            codNote.classList.remove('hidden');
+        }
+    });
+</script>
+
+<%- include('./partials/footer') %>

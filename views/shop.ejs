@@ -1,57 +1,111 @@
- <%- include('./partials/header') %>
- <% if(success.length>0){ %>
-    <div class="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-blue-500">
-        <span class="inline-block mt-1 mb-1 text-white">
-            <%= success %>
-        </span>
-    </div>
-    <% } %>
-    <div class="w-full h-screen flex items-start px-20 py-20">
-        <div class="w-[25%] flex h-screen flex-col items-start">
-            <div class="flex items-center gap-2">
-                <h3>sort by</h3>
-                <form action="/shop">
-                    <select class="border-[1px] px-2 py-1" name="sortby" id="">
-                        <option value="popular">Popular</option>
-                        <option value="newest">Newest</option>
-                    </select>
-                </form>
-            </div>
-            <div class="flex flex-col mt-20">
-                <a class="block w-fit mb-2" href="">New Collection</a>
-                <a class="block w-fit mb-2" href="">All Products</a>
-                <a class="block w-fit mb-2" href="">Discounted Products</a>
-            </div>
-            <div class="mt-32">
-                <a class="block w-fit mb-2" href="">Filter by :</a>
-                <a class="block w-fit mb-2" href="">Availability</a>
-                <a class="block w-fit mb-2" href="">Discount</a>
-            </div>
+<%- include('./partials/header') %>
+
+<% if(success.length > 0) { %>
+  <div class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-blue-600 px-6 py-3 rounded-lg shadow-lg z-50 animate-fadeIn">
+    <span class="text-white font-medium"><%= success %></span>
+  </div>
+<% } %>
+
+<div class="bg-gradient-to-br from-purple-100 via-blue-100 to-indigo-200 w-full min-h-screen px-10 py-16 flex gap-6">
+  <!-- Sidebar -->
+  <aside class="w-1/4 space-y-8 animate-slideInLeft">
+    <div class="bg-white rounded-2xl shadow-xl p-6 transition hover:shadow-2xl duration-300">
+      <h3 class="text-xl font-bold text-gray-700 mb-4">🧭 Sort by</h3>
+      <form action="/shop" method="GET">
+        <select
+          class="w-full border px-3 py-2 rounded-xl text-gray-600 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
+          name="sortby" onchange="this.form.submit()">
+          <option value="popular">Popular</option>
+          <option value="newest">Newest</option>
+        </select>
+      </form>
+
+      <div class="mt-8 space-y-3">
+        <a href="#" class="block text-center bg-indigo-600 text-white py-2 rounded-xl font-semibold hover:bg-indigo-700 transition duration-300 hover:scale-105">🌟 New Collection</a>
+        <a href="#" class="block text-center bg-indigo-600 text-white py-2 rounded-xl font-semibold hover:bg-indigo-700 transition duration-300 hover:scale-105">🛍️ All Products</a>
+        <a href="#" class="block text-center bg-indigo-600 text-white py-2 rounded-xl font-semibold hover:bg-indigo-700 transition duration-300 hover:scale-105">🔥 Discounted</a>
+      </div>
+
+      <div class="mt-10">
+        <h4 class="text-lg font-semibold text-gray-700 mb-2">🎯 Filter by</h4>
+        <a href="#" class="block text-center bg-indigo-600 text-white py-2 rounded-xl font-medium hover:bg-indigo-700 transition duration-300 hover:scale-105 mb-3">Availability</a>
+        <div class="bg-white p-3 rounded-xl shadow-md">
+          <label class="block text-gray-600 mb-2 font-medium">Discount</label>
+          <select
+            class="w-full border px-3 py-2 rounded-xl text-gray-600 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
+            name="discountFilter" onchange="this.form.submit()">
+            <option value="none">None</option>
+            <option value="above50">Above 50%</option>
+            <option value="below50">Below 50%</option>
+          </select>
         </div>
-        <div class="w-[75%] flex flex-col gap-5 h-screen">
-            <div class="flex items-start gap-5">
-                <% products.forEach(function(product){ %>
-                    <div class="w-60">
-                        <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
-                            <img class="h-[12rem]" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
-                                alt="">
-                        </div>
-                        <div
-                            class="flex justify-between bg-[<%= product.panelcolor %>] items-center px-4 py-4 text-[<%= product.textcolor %>]">
-                            <div>
-                                <h3>
-                                    <%= product.name %>
-                                </h3>
-                                <h4>₹ <%= product.price %>
-                                </h4>
-                            </div>
-                            <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="/addtocart/<%=product._id%>">
-                                <i class="ri-add-line"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <% }) %>
-            </div>
-        </div>
+      </div>
     </div>
-    <%- include('./partials/footer') %>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="w-3/4 animate-fadeIn">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+      <% products.forEach(product => { %>
+        <article class="bg-white rounded-2xl shadow-xl overflow-hidden transform transition hover:scale-[1.03] hover:shadow-2xl duration-300 relative">
+          <!-- Whole card except button links to product -->
+          <a href="/users/product/<%= product._id %>" class="block">
+            <div class="h-52 flex items-center justify-center" style="background-color: <%= product.bgcolor %>;">
+              <img class="h-40 object-contain transition-transform duration-300 hover:scale-110"
+                   src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="<%= product.name %>">
+            </div>
+            <div class="px-6 py-4" style="background-color: <%= product.panelcolor %>; color: <%= product.textcolor %>;">
+              <h3 class="text-lg font-bold"><%= product.name %></h3>
+              <p class="text-md font-semibold">₹ <%= product.price %></p>
+            </div>
+          </a>
+
+          <!-- Add to Cart Button -->
+          <form action="/addtocart/<%= product._id %>" method="GET" class="absolute top-4 right-4">
+            <button
+              type="submit"
+              class="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center shadow hover:shadow-md transition hover:bg-gray-100 hover:scale-110 duration-300"
+              onclick="event.stopPropagation();">
+              <i class="ri-add-line text-xl"></i>
+              <span class="sr-only">Add <%= product.name %> to cart</span>
+            </button>
+          </form>
+        </article>
+      <% }) %>
+    </div>
+  </main>
+</div>
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  .animate-slideInLeft {
+    animation: slideInLeft 0.6s ease-out;
+  }
+</style>
+
+<%- include('./partials/footer') %>

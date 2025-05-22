@@ -1,0 +1,99 @@
+<%- include('./partials/header') %>
+
+  <div class="min-h-screen bg-gradient-to-br from-white to-blue-50 py-16 px-10">
+    <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl p-8 flex flex-col md:flex-row gap-8">
+      <!-- Image Section -->
+      <div class="flex-1 flex justify-center items-center">
+        <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="<%= product.name %>"
+          class="rounded-xl max-h-80 object-contain">
+      </div>
+
+      <!-- Product Info -->
+      <div class="flex-1 space-y-4 animate-fadeIn">
+        <h1 class="text-3xl font-bold text-gray-800">
+          <%= product.name %>
+        </h1>
+        <div class="text-xl text-green-600 font-semibold">₹ <%= product.price %>
+        </div>
+
+        <!-- Rating -->
+        <div class="flex items-center space-x-2">
+          <span class="text-yellow-500 text-lg">
+            <% for(let i=0; i < 5; i++) { %>
+              <i class="ri-star-fill <%= i < product.rated ? 'text-yellow-400' : 'text-gray-300' %>"></i>
+              <% } %>
+          </span>
+          <span class="text-sm text-gray-600">Rated: <%= product.rated %>/5</span>
+        </div>
+
+        <!-- Buy Button -->
+        <a href="/addtocart/<%= product._id %>"
+          class="inline-block px-6 py-3 bg-indigo-600 text-white rounded-full font-semibold hover:bg-indigo-700 transition duration-300">
+          🛒 Add to Cart
+        </a>
+
+        <!-- Toggle Q&A -->
+        <button id="toggleQA"
+          class="mt-6 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-full font-medium transition duration-300">
+          💬 Show Questions & Answers
+        </button>
+
+        <!-- Q&A Section -->
+        <div id="qaSection" class="mt-4 space-y-4 hidden">
+          <% if(product.questions.length===0) { %>
+            <p class="text-gray-500 italic">No questions available.</p>
+            <% } else { %>
+              <% product.questions.forEach(q=> { %>
+                <div class="border border-gray-200 p-4 rounded-lg">
+                  <p class="font-semibold text-gray-800">❓ <%= q.question %>
+                  </p>
+                  <p class="text-green-700 mt-1">✅ <%= q.answer %>
+                  </p>
+                </div>
+                <% }) %>
+                  <% } %>
+        </div><!-- Ask a Question Form -->
+        <div class="mt-6">
+          <form action="/users/ask-question/<%= product._id %>" method="POST" class="space-y-4">
+            <label for="question" class="block font-medium text-gray-700">Have a question?</label>
+            <textarea name="question" id="question" rows="3" required
+              class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Type your question here..."></textarea>
+            <button type="submit"
+              class="px-5 py-2 bg-indigo-600 text-white rounded-full font-semibold hover:bg-indigo-700 transition duration-300">
+              Submit Question
+            </button>
+          </form>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('toggleQA').addEventListener('click', () => {
+      const section = document.getElementById('qaSection');
+      section.classList.toggle('hidden');
+    });
+  </script>
+
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+  </style>
+
+  <%- include('./partials/footer') %>

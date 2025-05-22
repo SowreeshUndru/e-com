@@ -1,0 +1,75 @@
+<!-- Custom Header -->
+<header class="bg-green-700 text-white py-4 shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex justify-between items-center px-6">
+    <div class="text-2xl font-bold cursor-default select-none">Ecomm</div>
+    <nav class="space-x-6 text-lg">
+      <a href="/" class="hover:underline">Control Shop</a>
+      <a href="/owners/logout" class="hover:underline">Sign Out</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Main Content -->
+<div class="w-full h-screen flex items-start px-20 py-20 pt-32">
+  <!-- Sidebar -->
+  <div class="w-[25%] flex h-screen flex-col items-start sticky top-[72px]">
+    <div class="flex flex-col">
+      <a href="/owners/admin/products" class="block w-fit mb-2 font-bold text-lg">All Products</a>
+      <a href="/owners/admin/products/create" class="block w-fit mb-2 text-blue-600 hover:underline">Create new
+        product</a>
+    </div>
+  </div>
+
+  <!-- Products List -->
+  <div class="w-[75%] flex flex-col gap-5 h-screen overflow-y-auto">
+    <% if (success && success.length> 0) { %>
+      <div class="bg-green-100 text-green-800 p-2 rounded mb-4">
+        <%= success %>
+      </div>
+      <% } %>
+
+        <% if (error && error.length> 0) { %>
+          <div class="bg-red-100 text-red-800 p-2 rounded mb-4">
+            <%= error %>
+          </div>
+          <% } %>
+
+            <div class="flex flex-wrap gap-5 p-2">
+              <% products.forEach(product=> { %>
+                <div
+                  class="w-60 bg-[#4A98D8] rounded-md shadow-xl overflow-hidden relative transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:z-10">
+                  <div class="w-full h-52 bg-yellow-500">
+                    <% if(product.image) { %>
+                      <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+                        alt="<%= product.name %>" class="w-full h-full object-cover" />
+                      <% } else { %>
+                        <div class="w-full h-full flex items-center justify-center text-gray-400">No Image</div>
+                        <% } %>
+                  </div>
+
+                  <div class="flex justify-between items-center px-4 py-4">
+                    <div>
+                      <h3 class="text-white font-semibold">
+                        <%= product.name %>
+                      </h3>
+                      <h4 class="text-white">₹ <%= product.price %>
+                      </h4>
+                    </div>
+
+                    <!-- Delete button -->
+                    <form action="/owners/admin/products/<%= product._id %>/delete" method="POST"
+                      onsubmit="return confirm('Delete this product?');">
+                      <button type="submit"
+                        class="w-7 h-7 flex items-center justify-center rounded-full bg-white text-red-600 hover:bg-red-100">
+                        <i class="ri-delete-bin-line"></i>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+                <% }) %>
+            </div>
+  </div>
+</div>
+
+<%- include('./partials/header') %>
+  <%- include('./partials/footer') %>

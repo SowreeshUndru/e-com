@@ -9,7 +9,21 @@ const productschema = new mongoose.Schema({
   },
   bgcolor:String,
   panel:String,
-  textcolor:String
+  textcolor:String,
+  rated:{
+    type:Number,
+    default:0
+  },
+  questions:[
+    {
+      question:{
+        type:String,
+      },
+      answer:{
+        type:String,
+      }
+    }
+  ]
      
 });
 module.exports =mongoose.model("product",productschema);

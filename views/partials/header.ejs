@@ -1,26 +1,28 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="font-['helvetica_now_display']">
-    <nav class="w-full flex justify-between px-5 py-3">
-      <h3 class="text-xl">Scatch</h3>
-      <% var loggedin = typeof loggedin !== "undefined" ? loggedin : true %>
-      <% if (loggedin) { %>
-      <div class="flex gap-5">
-        <a href="">Shop</a>
-        <a href="shop/cart">Cart</a>
-        <a href="">My Account</a>
-        <a class="text-red-600" href="/">Logout</a>
-      </div>
-      <% } %>
-    </nav>
-  </body>
+<body class="w-[100vw] font-['helvetica_now_display'] backdrop-blur-md">
+
   
+    <div class=" white text-[#2E4057] bg-[#F5F5F5 ] w-full backdrop-blur-md flex justify-between px-5 py-3 ">
+      <h3 class="text-xl">Ecomm.</h3>
+      <% var loggedin=typeof loggedin !=="undefined" ? loggedin : true %>
+        <% if (loggedin) { %>
+          <div class="flex gap-5">
+            <a href="">Shop</a>
+            <a href="shop/cart">Cart</a>
+            <a href="">MyOrders</a>
+            <a class="text-red-600" href="/">Logout</a>
+          </div>
+          <% } %>
+        </div>
+  
+</body>
